@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itemised Pay Slip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header, .section-title {
+            background-color: #ff6b00;
+            color: #fff;
+            padding: 10px;
+            margin: -20px -20px 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .section-title {
+            margin: 20px -20px 0;
+        }
+        .section-title:last-of-type {
+            border-radius: 0 0 8px 8px;
+        }
+        .pay-slip-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .pay-slip-table th, .pay-slip-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .pay-slip-table th {
+            background-color: #f4f4f4;
+        }
+        .pay-slip-table input[type="text"], .pay-slip-table input[type="number"] {
+            width: 100%;
+            border: none;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .pay-slip-table input[type="text"]:focus, .pay-slip-table input[type="number"]:focus {
+            outline: none;
+            border: 1px solid #ff6b00;
+        }
+        .calculate-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 20px 0;
+            background-color: #ff6b00;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .calculate-button:hover {
+            background-color: #e05b00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Itemised Pay Slip</h1>
+        </div>
+
+        <table class="pay-slip-table">
+            <tr>
+                <td>Name of Employer</td>
+                <td><input type="text" id="employerName"></td>
+                <td>Date of Payment</td>
+                <td><input type="text" id="paymentDate"></td>
+            </tr>
+            <tr>
+                <td>Name of Employee</td>
+                <td><input type="text" id="employeeName"></td>
+                <td>Mode of Payment</td>
+                <td><input type="text" id="paymentMode"></td>
+            </tr>
+        </table>
+
+        <h2 class="section-title">Item</h2>
+        <table class="pay-slip-table">
+            <tr>
+                <th>Item</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td>Basic Pay</td>
+                <td><input type="number" id="basicPay"></td>
+            </tr>
+            <tr>
+                <td>Total Allowances</td>
+                <td><input type="number" id="totalAllowances"></td>
+            </tr>
+            <tr>
+                <td>Gross Pay (A + B)</td>
+                <td><input type="number" id="grossPay" readonly></td>
+            </tr>
+            <tr>
+                <td>Total Deductions</td>
+                <td><input type="number" id="totalDeductions"></td>
+            </tr>
+            <tr>
+                <td>Net Pay (C - D + E + F)</td>
+                <td><input type="number" id="netPay" readonly></td>
+            </tr>
+        </table>
+
+        <h2 class="section-title">Overtime Details</h2>
+        <table class="pay-slip-table">
+            <tr>
+                <th>Overtime Payment Period(s)</th>
+                <th>Overtime Hours Worked</th>
+                <th>Total Overtime Pay</th>
+            </tr>
+            <tr>
+                <td><input type="text" id="overtimePeriod"></td>
+                <td><input type="number" id="overtimeHours"></td>
+                <td><input type="number" id="overtimePay"></td>
+            </tr>
+        </table>
+
+        <h2 class="section-title">Other Additional Payments</h2>
+        <table class="pay-slip-table">
+            <tr>
+                <th>Item</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td><input type="text" id="additionalItem"></td>
+                <td><input type="number" id="additionalAmount"></td>
+            </tr>
+        </table>
+
+        <button class="calculate-button" onclick="calculatePay()">Calculate</button>
+    </div>
+
+    <script>
+        function calculatePay() {
+            const basicPay = parseFloat(document.getElementById('basicPay').value) || 0;
+            const totalAllowances = parseFloat(document.getElementById('totalAllowances').value) || 0;
+            const totalDeductions = parseFloat(document.getElementById('totalDeductions').value) || 0;
+            const overtimePay = parseFloat(document.getElementById('overtimePay').value) || 0;
+            const additionalAmount = parseFloat(document.getElementById('additionalAmount').value) || 0;
+
+            const grossPay = basicPay + totalAllowances;
+            document.getElementById('grossPay').value = grossPay.toFixed(2);
+
+            const netPay = grossPay - totalDeductions + overtimePay + additionalAmount;
+            document.getElementById('netPay').value = netPay.toFixed(2);
+        }
+    </script>
+</body>
+</html>
